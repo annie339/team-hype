@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEAM HYPE TERMINAL 9000</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 20% 10%, #ff00ff22, transparent 40%),
+      radial-gradient(circle at 80% 90%, #00ffff22, transparent 40%),
+      linear-gradient(135deg, #0a0014 0%, #1a0033 50%, #000814 100%);
+    font-family: 'Courier New', monospace;
+    color: #00ff9f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+  .terminal {
+    width: 100%;
+    max-width: 720px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 2px solid #00ff9f;
+    border-radius: 16px;
+    box-shadow:
+      0 0 40px #00ff9f66,
+      inset 0 0 60px #00ff9f11;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+  }
+  h1 {
+    font-size: clamp(20px, 4vw, 28px);
+    text-align: center;
+    color: #00ff9f;
+    text-shadow: 0 0 10px #00ff9f, 0 0 20px #00ff9f;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #ff00ff;
+    font-size: 12px;
+    margin-bottom: 24px;
+    text-shadow: 0 0 8px #ff00ff;
+    letter-spacing: 1px;
+  }
+  .hype-box {
+    background: #000;
+    border: 1px solid #00ff9f88;
+    border-radius: 8px;
+    padding: 24px;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(16px, 3vw, 22px);
+    line-height: 1.5;
+    color: #fff;
+    text-shadow: 0 0 8px #00ff9f;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hype-box::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff9f, transparent);
+    animation: scan 3s linear infinite;
+  }
+  @keyframes scan {
+    0% { top: -2px; }
+    100% { top: 100%; }
+  }
+  .hype-text { position: relative; z-index: 2; }
+  .hype-text.flash { animation: flash 0.5s ease-out; }
+  @keyframes flash {
+    0% { transform: scale(0.92); opacity: 0; filter: blur(8px); }
+    100% { transform: scale(1); opacity: 1; filter: blur(0); }
+  }
+  .button-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  button {
+    flex: 1;
+    padding: 18px;
+    font-family: inherit;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: transform 0.1s;
+  }
+  .deploy {
+    font-size: clamp(15px, 2.8vw, 18px);
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #00ff9f, #ff00ff);
+    background-size: 300% 100%;
+    color: #000;
+    box-shadow: 0 0 30px #ff00ff88;
+    animation: gradientShift 4s linear infinite;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  .copy {
+    flex: 0 0 auto;
+    font-size: 13px;
+    background: transparent;
+    color: #00ff9f;
+    border: 1px solid #00ff9f;
+    padding: 18px 20px;
+  }
+  .copy:hover { background: #00ff9f22; }
+  button:hover { transform: translateY(-2px); }
+  button:active { transform: translateY(1px) scale(0.98); }
+  .counter {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #00ff9f88;
+    letter-spacing: 1px;
+  }
+  .counter .status { color: #00ff9f; }
+  .blink { animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .toast {
+    position: fixed;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #00ff9f;
+    color: #000;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: transform 0.3s;
+    z-index: 100;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+  <div class="terminal">
+    <h1>⟁ TEAM HYPE TERMINAL 9000 ⟁</h1>
+    <div class="subtitle">// MAXIMUM DEGEN ENERGY — USE RESPONSIBLY //</div>
+    <div class="hype-box">
+      <div class="hype-text" id="hype">gm ser. press the button. your team is about to make it. <span class="blink">▊</span></div>
+    </div>
+    <div class="button-row">
+      <button class="deploy" onclick="hype()">🚀 Deploy Hype 🚀</button>
+      <button class="copy" onclick="copyHype()">📋 Copy</button>
+    </div>
+    <div class="counter">HYPE DEPLOYED: <span id="count">0</span> | STATUS: <span class="status">ULTRA BULLISH</span></div>
+  </div>
+  <div class="toast" id="toast">COPIED TO CLIPBOARD 📋</div>
+
+<script>
+  const openers = [
+    "GM DEGENS.", "SER.", "ANON.", "FRENS.", "YO.", "LISTEN UP MAXIS.",
+    "ATTENTION CHADS.", "WAGMI WARRIORS.", "TEAM.", "OKAY OKAY OKAY.",
+    "GATHER ROUND.", "BREAKING:", "ALPHA LEAK:", "PSA:",
+    "gm.", "hey frens,", "quick note —", "just saying,", "real talk:",
+    "low-key though,", "not to be dramatic but", "hot take:", "ngl,"
+  ];
+
+  const bodies = [
+    "we are SO unfathomably back it's actually criminal",
+    "the roadmap is cooking harder than a CEX in a bank run",
+    "this team? generational. once-in-a-cycle. actual alpha incarnate",
+    "everyone else is noise — we are signal, we are THE signal",
+    "competitors are still reading the whitepaper while we're shipping v7",
+    "i am irrationally bullish on this team and refuse to seek therapy",
+    "the vibes are so immaculate the charts can't even keep up",
+    "we're not just building — we're MANIFESTING. different timeline energy",
+    "every hater is secretly accumulating. we are winning on every axis",
+    "this isn't a team. this is a movement. this is THE movement",
+    "the execution is so clean it should be illegal in 14 jurisdictions",
+    "we're early, we're aligned, we're unreasonably based",
+    "the alpha is leaking from every pore and i refuse to plug it",
+    "other teams are playing checkers. we invented a new game. we're already winning",
+    "quietly confident the work this week is actually pretty strong",
+    "no big announcement, just wanted to say the team's been cooking",
+    "we're building something real and it shows",
+    "feels like we've found our rhythm lately",
+    "the output has been genuinely good, proud of everyone",
+    "slowly and steadily shipping alpha. it's working",
+    "honestly the vibes are great and the work reflects it",
+    "we're stacking small wins and it's compounding nicely",
+    "not flashy, just consistent excellence, which is rarer anyway",
+    "the long game is paying off, keep doing what you're doing"
+  ];
+
+  const middles = [
+    "keep shipping, keep cooking,",
+    "heads down, gm mode activated,",
+    "no sleep only alpha,",
+    "touch grass? never heard of her,",
+    "ignore the FUD, trust the process,",
+    "the mission is crystal clear,",
+    "conviction levels — maxxed,",
+    "mental fortitude — diamond tier,",
+    "zoom out, the chart is vertical,",
+    "stay locked in, stay dangerous,",
+    "just keep building,",
+    "one foot in front of the other,",
+    "steady as she goes,",
+    "trust the work,",
+    "vibes are right, keep going,",
+    "no need to overthink it,"
+  ];
+
+  const closers = [
+    "WAGMI. 🚀",
+    "LFG — NGMI IS NOT IN OUR VOCAB. 💎🙌",
+    "ONWARD TO VALHALLA. ⚔️",
+    "SEND IT. 🔥🔥🔥",
+    "WE RIDE AT DAWN. 🌅",
+    "THIS TEAM IS THE TRADE. 📈",
+    "FLOOR IS THE CEILING. 🚀",
+    "BULLISH ON YOU. BULLISH ON US. BULLISH ON EVERYTHING. 🐂",
+    "GM. GN. GN. GM. NO SLEEP. 🌙",
+    "WE'RE SO BACK IT'S SCARY. 👻",
+    "VALHALLA OR BUST. 🛡️",
+    "UP ONLY. VIBES ONLY. 📈✨",
+    "COPE HARDER HATERS. 💪",
+    "TO THE MOON IS AN UNDERSELL. 🌕🚀",
+    "wagmi 🤝",
+    "gm ☕",
+    "nice work team 🫡",
+    "quietly bullish 📈",
+    "we're cooking 🍳",
+    "good vibes only ✨",
+    "lfg (respectfully) 🙂",
+    "keep it up 🌱",
+    "bullish but in a chill way 🐂",
+    "onwards 🛤️"
+  ];
+
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  let count = 0;
+
+  function buildHype() {
+    return `${pick(openers)} ${pick(bodies)}. ${pick(middles)} ${pick(closers)}`;
+  }
+
+  function hype() {
+    const el = document.getElementById('hype');
+    el.classList.remove('flash');
+    void el.offsetWidth; // restart animation
+    el.textContent = buildHype();
+    el.classList.add('flash');
+    count++;
+    document.getElementById('count').textContent = count;
+  }
+
+  function copyHype() {
+    const text = document.getElementById('hype').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1600);
+    });
+  }
+
+  // keyboard: spacebar or enter to deploy
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' || e.code === 'Enter') {
+      e.preventDefault();
+      hype();
+    }
+  });
+</script>
+</body>
+</html>
